@@ -2,14 +2,14 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/main_container"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
     <fragment
-        tools:name ="com.example.myweather_app.MainFragment"
+        android:name ="com.example.myweather_app.view.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

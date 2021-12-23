@@ -3,38 +3,31 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_recycle_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        tools:context=".view.MainFragment">
+        tools:listitem="@layout/main_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_height="match_parent"/>
 
-        <TextView
-            android:id="@+id/cityName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            tools:text="Москва" />
-
-        <TextView
-            android:id="@+id/temperature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            tools:text="10" />
-
-    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mainFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:src="@drawable/lang"
+        app:maxImageSize="30dp"
+        android:backgroundTint="@color/purple_200"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <LinearLayout
+        tools:visibility="gone"
         android:background="@android:color/darker_gray"
         android:id="@+id/loadingContainer"
         android:layout_width="match_parent"
@@ -57,8 +50,6 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
-
 
 
 </FrameLayout>

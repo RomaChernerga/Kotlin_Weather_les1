@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_city_name_text_view"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    tools:text= "@tools:sample/lorem"
+    android:gravity="center"
+    android:paddingStart="8dp"
+    android:layout_margin="1dp"
+    android:background="#9AF1F1"
+    android:textColor="@color/black"
+    android:scrollbarStyle="insideOverlay"
+    android:layout_height="50dp">
+
+
+</TextView>

@@ -8,35 +8,26 @@ import com.example.myweather_app.model.RepositoryImpl
 import com.example.myweather_app.model.Weather
 import kotlin.random.Random
 
-class MainViewModel : ViewModel() {
+class DetailViewModel : ViewModel() {
 
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
     private val repo: Repository = RepositoryImpl()         // Добавляем ранее созданный репозиторий
 
-
     fun getData(): LiveData<AppState> = liveDataToObserver  // метод который юужет возвращать данные
 
-    fun getWeatherFromLocalStorageRus() = getDataFromLocalSource(true)
-
-    fun getWeatherFromLocalStorageWorld() = getDataFromLocalSource(false)
-
-    fun getWeatherFromRemoteSource() = getDataFromLocalSource(true)
-
-    private fun getDataFromLocalSource(isRussian: Boolean = true) {
-
+    fun getWeather() {
         liveDataToObserver.value = AppState.Loading  // сперва отображается загрузка при попытке запросить данные
 
         Thread{
 
             Thread.sleep(1000)
 
-                val weather = if(isRussian)  {    // источник, откуда берем данные если у нас русские города
-                    repo.getWeatherFromLocalStorageRus()
-                } else {
-                    repo.getWeatherFromLocalStorageWorld()  // впротивном случае берем города иностранные
-                }
+            if(Random.nextBoolean()) {
+                val weather = repo.getWeatherFromServer() // источник, откуда берем данные
                 liveDataToObserver.postValue(AppState.Success(weather)) //загрузка успешна рандомно, если да, то передаем погоду
-
+            } else {
+                liveDataToObserver.postValue(AppState.Error(Exception("Проверьте интернет"))) //загрузка неуспешна и выкидывает ошибку
+            }
         }.start()
     }
 

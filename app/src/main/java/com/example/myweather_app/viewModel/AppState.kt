@@ -1,11 +1,9 @@
 package com.example.myweather_app.viewModel
 
-import com.example.myweather_app.model.Weather
-
 sealed class AppState {
-
-    data class Success(val weather: Weather) : AppState()  // наследуем от AppState и пока делаем любого типа - Any
-    data class Error(val error: Throwable) : AppState()
+        // ШАБЛОННЫЙ ТИП КОТОРЫЙ ПОДОЙДЕТ ДЛЯ ЛЮБОГО НАШЕГО ТИПА ЭКРАНА
+    data class Success<T>(val data: T) : AppState()  // наследуем от AppState и пока делаем любого типа - Any
+    data class Error(val error: Throwable) : AppState()  // <Nothing>  - значит, даже не используется
     object Loading : AppState()
 
 }
