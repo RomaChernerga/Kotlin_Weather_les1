@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.example.myweather_app.R
 import com.example.myweather_app.viewModel.MainViewModel
 import com.example.myweather_app.databinding.MainFragmentBinding
@@ -25,16 +26,18 @@ class MainFragment : Fragment() {
     private val adapter = MainAdapter()  // создаем переменную адаптер
     private var isRussian = true
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by lazy {  // делаем неизменяемой и добавляем делегат by lazy
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,17 +45,21 @@ class MainFragment : Fragment() {
         binding.mainRecycleView.adapter = adapter  // адаптер новый создается
 
         adapter.listener = MainAdapter.OnItemClick { weather ->
-            val bundle = Bundle()
-            bundle.putParcelable("WEATHER_EXTRA", weather )
-            requireActivity()
-                .supportFragmentManager.beginTransaction()
-                .replace(R.id.main_container, DetailFragment.newInstance(bundle))
-                .addToBackStack("")
-                .commit()
+
+            val bundle = Bundle().apply {
+                putParcelable("WEATHER_EXTRA", weather )
+            }
+
+            activity?.supportFragmentManager?.apply {
+                    beginTransaction()
+                    .replace(R.id.main_container, DetailFragment.newInstance(bundle))
+                    .addToBackStack("")
+                    .commit()
+            }
         }
 //        binding.mainRecycleView.layoutManager = LinearLayoutManager(requireActivity())
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
 
         //подписались на изменения liveData
         viewModel.getData().observe(viewLifecycleOwner,{ state ->
@@ -82,20 +89,19 @@ class MainFragment : Fragment() {
 
                 val weather: List<Weather> = state.data as List<Weather>    // приведение типов
                 adapter.setWeather(weather)
-                binding.loadingContainer.visibility = View.GONE
+                binding.loadingContainer.hide()
             }
             is AppState.Error -> {
-                binding.loadingContainer.visibility = View.VISIBLE
-                Snackbar.make(binding.root,
-                    state.error.message.toString(),
-                    Snackbar.LENGTH_INDEFINITE)  // при наличии ошибки, выводим сообщение в снэкбар
-                    .setAction("Попробовать снова") {
-                 //Запросили новые данные
+                binding.loadingContainer.show()
+                binding.root.showSnackBar(state.error.message.toString(),
+                    "Попробовать снова",
+                    {
+                         //Запросили новые данные
                     viewModel.getWeatherFromLocalStorageRus()
-                }.show()  // команда запуска
+                    })
             }
             is AppState.Loading ->
-                binding.loadingContainer.visibility = View.VISIBLE   //отображаем завгрузку
+                binding.loadingContainer.show()   //отображаем завгрузку
         }
     }
 
@@ -108,5 +114,13 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         // TODO: Use the ViewModel
     }
+
+    val list = listOf<String>(
+        "123",
+        "21231",
+        "124124"
+
+    )
+
 
 }

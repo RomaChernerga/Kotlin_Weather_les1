@@ -5,6 +5,23 @@ import kotlin.random.Random
 
 fun main () {
 
+
+
+//    val name: String = "roman"
+//    val string1 = "Hello, $name" // $ - выполняет роль обозначение, что это не стринг, а переменная
+//    val string2 = """Hello, ${name.capitalize()}
+//        |How are you doing?""".trimMargin() // capitalize - делает первую литеру добавляемого слова - заглавной
+//    println(string2)
+//    println("x = ${Random(5).nextInt(5)}")
+    /* АЛЬТЕРНАТИВН ВАРИАНТЫ ПРЕДСТАВЛЕНИЙ С ЛЯМБДОЙ*/
+//    fun test (value: String): Boolean {return true}
+//    fun test (value: String): Boolean = true
+    fun test (value: String) = true
+
+//    val list = listOf("100" , "1345", "12")
+//    println(list)
+//    println(list.sorted())
+//    println(list.sortedBy{string -> string.toInt()})  // попросить сравнивать как числа, а не как строки
      //val list = listOf<String>()  // пример джереника - шаблонный метод
 
 
@@ -19,30 +36,28 @@ fun main () {
 //        .joinToString("_","[", "]"  // склеиваем через подчеркивание
 //        ))
 
-    val list = listOf("one", "two")
-    var list2 = mutableListOf("one", "two")
-    val map = mapOf<String, Int>("one" to 1,
-                                "two" to 2,
-                                Pair("three", 3)
-    )
+//    val list = listOf("one", "two")
+//    var list2 = mutableListOf("one", "two")
+//    val map = mapOf<String, Int>("one" to 1,
+//                                "two" to 2,
+//                                Pair("three", 3)
+//    )
 //    list2.forEach { i -> println(i) }   //пробежаться по листу2 и вывести значения
-
-
 
 //    val list3 = arrayListOf("one", "two")
 //    list3.add("three")
 //    println(map.values)
 
-    var notNullable: String = "test test testfsdfs"
-    var nullable: String? = "test test testfsdfs"
-
-    nullable = if(Random.nextBoolean()) { null } else { "null" }
+//    var notNullable: String = "test test testfsdfs"
+//    var nullable: String? = "test test testfsdfs"
+//
+//    nullable = if(Random.nextBoolean()) { null } else { "null" }
 
 //    val size = nullable?.length ?:   Использование оператора безопасного вызова
-    val size: Int = if (nullable != null) {nullable.length} else { 0 } // альтернативный вариант строчки выше
-
-    val sizeLastWord1: Int = nullable?.split(" ")?.last()?.length ?: 0  // тут нужно использовать ?
-    val sizeLastWord2: Int = notNullable.split(" ").last().length     // тут НЕ нужно использовать ?
+//    val size: Int = if (nullable != null) {nullable.length} else { 0 } // альтернативный вариант строчки выше
+//
+//    val sizeLastWord1: Int = nullable?.split(" ")?.last()?.length ?: 0  // тут нужно использовать ?
+//    val sizeLastWord2: Int = notNullable.split(" ").last().length     // тут НЕ нужно использовать ?
 
     // ?    ?.  ?:  !!
 
@@ -58,11 +73,13 @@ fun main () {
 
 //    println(size)
 
-    val any: Any = "String"
-    val string = any as String
-
-    val integer = 1
-    val double = integer.toDouble()  // приведение типов
+//    val any: Any = "String"
+//    val string = any as String
+//
+//    val integer = 1
+//    val double = integer.toDouble()  // приведение типов
 
 }
+
+
 

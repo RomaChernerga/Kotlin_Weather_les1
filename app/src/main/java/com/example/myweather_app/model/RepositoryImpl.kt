@@ -2,17 +2,13 @@ package com.example.myweather_app.model
 
 class RepositoryImpl : Repository {  // имплиментрируем от Repository
 
-    override fun getWeatherFromServer(): Weather {
-        return Weather()
-    }
+    override fun getWeatherFromServer(): Weather = Weather()
 
-    override fun getWeatherFromLocalStorageRus(): List<Weather> {
-        return getRussianCities()   // возвращаем список росийских городов
-    }
+    // возвращаем список росийских городов
+    override fun getWeatherFromLocalStorageRus(): List<Weather>  = getRussianCities()
 
-    override fun getWeatherFromLocalStorageWorld(): List<Weather> {
-        return getWorldCities()   // возвращаем список иностранных городов
-    }
+    // возвращаем список иностранных городов
+    override fun getWeatherFromLocalStorageWorld(): List<Weather> = getWorldCities()
 
 
 

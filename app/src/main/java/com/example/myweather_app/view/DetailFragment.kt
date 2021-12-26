@@ -17,6 +17,7 @@ import com.example.myweather_app.viewModel.DetailViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.detail_fragment.*
+import java.lang.NullPointerException
 
 class DetailFragment : Fragment() {
 
@@ -43,17 +44,15 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val weather = arguments?.getParcelable<Weather>("WEATHER_EXTRA")
+        arguments?.getParcelable<Weather>("WEATHER_EXTRA")?.let { weather->
+            binding.cityName.text = weather.city.name
+            binding.temperature.text = weather.temperature.toString()
+        }?: throw NullPointerException("Weather is null")
 
-        binding.cityName.text = weather?.city?.name ?: ""
-        binding.temperature.text = weather?.temperature.toString()
-
+        //для клавиши "назад" метод
         binding.mainBack.setOnClickListener {
             activity?.onBackPressed()
-
         }
-
-
     }
 
     override fun onDestroy() {
