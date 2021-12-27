@@ -115,12 +115,6 @@ class MainFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    val list = listOf<String>(
-        "123",
-        "21231",
-        "124124"
-
-    )
 
 
 }
