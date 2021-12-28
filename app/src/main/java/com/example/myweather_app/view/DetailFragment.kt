@@ -7,11 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.myweather_app.R
 import com.example.myweather_app.databinding.DetailFragmentBinding
 import com.example.myweather_app.viewModel.MainViewModel
 import com.example.myweather_app.databinding.MainFragmentBinding
 import com.example.myweather_app.model.Weather
+import com.example.myweather_app.model.WeatherDTO
+import com.example.myweather_app.model.WeatherLoader
 import com.example.myweather_app.viewModel.AppState
 import com.example.myweather_app.viewModel.DetailViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -44,9 +47,28 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getParcelable<Weather>("WEATHER_EXTRA")?.let { weather->
+        arguments?.getParcelable<Weather>("WEATHER_EXTRA")?.let { weather ->
+
             binding.cityName.text = weather.city.name
-            binding.temperature.text = weather.temperature.toString()
+            binding.cityCoordinates.text = "${weather.city.lat} ${weather.city.lon}"
+
+            WeatherLoader.load(weather.city, object : WeatherLoader.OnWeatherLoadListener  {
+                override fun onLoaded(weatherDTO: WeatherDTO) {
+                    weatherDTO.fact?.let { fact ->
+                        binding.weatherConditions.text = fact.condition
+                        binding.temperatureValue.text = fact.temp?.toString()
+                        binding.feelsLikeValue.text = fact.feels_like?.toString()
+                    }
+
+                }
+
+                override fun onFailed(throwable: Throwable) {
+                    Toast.makeText(requireContext(), throwable.message, Toast.LENGTH_LONG).show()
+                }
+
+
+            })
+
         }?: throw NullPointerException("Weather is null")
 
         //для клавиши "назад" метод

@@ -57,9 +57,6 @@ class MainFragment : Fragment() {
                     .commit()
             }
         }
-//        binding.mainRecycleView.layoutManager = LinearLayoutManager(requireActivity())
-
-
 
         //подписались на изменения liveData
         viewModel.getData().observe(viewLifecycleOwner,{ state ->

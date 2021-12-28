@@ -8,10 +8,10 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <fragment
-        android:name ="com.example.myweather_app.view.MainFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+<!--    <fragment-->
+<!--        android:name ="com.example.myweather_app.view.MainFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 
 
 <!--    <LinearLayout-->

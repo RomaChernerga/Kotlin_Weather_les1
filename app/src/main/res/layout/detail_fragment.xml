@@ -19,22 +19,75 @@
             android:id="@+id/cityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="25sp"
             android:textSize="35sp"
             android:textColor="@color/black"
-
             android:textStyle="bold"
             tools:text="Москва" />
 
         <TextView
-            android:id="@+id/temperature"
+            android:id="@+id/cityCoordinates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
             android:textColor="@color/black"
-            android:layout_marginTop="20sp"
-            android:textSize="35sp"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            tools:text="lt/ln: 55.7  37.6" />
+
+        <TextView
+            android:id="@+id/weatherConditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
             android:textStyle="bold"
-            tools:text="10" />
+            tools:text="Облачно" />
+
+        <TextView
+            android:id="@+id/temperatureLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="normal"
+            android:text="Температура"
+            tools:text="Температура" />
+        <TextView
+            android:id="@+id/feelsLikeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="-15" />
+        <TextView
+            android:id="@+id/temperatureValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="normal"
+            android:text="Ощущается"
+            tools:text="Ощущается" />
+        <TextView
+            android:id="@+id/feelsLikeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="-23" />
+
+
+
+
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/mainBack"
