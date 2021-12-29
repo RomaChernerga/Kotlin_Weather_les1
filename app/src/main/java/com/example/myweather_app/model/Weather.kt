@@ -9,7 +9,8 @@ data class Weather(
 //    val city: City = getDefaultCity(),
     internal val city: City = getDefaultCity(),
     val temperature: Int = 0,
-    val feelsLike: Int = 0
+    val feelsLike: Int = 0,
+    val condition: String = "",
 ): Parcelable    // наследуемся
 {
     constructor(parcel: Parcel) : this(

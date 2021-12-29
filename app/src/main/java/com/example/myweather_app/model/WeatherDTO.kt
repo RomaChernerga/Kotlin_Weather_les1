@@ -12,7 +12,7 @@ data class FactDTO (   // конструктор
     val obs_time: Long?,
     val temp: Int?,
     @SerializedName("feels_like")
-    val feels_like: String?,
+    val feels_like: Int?,
     val icon: String?,
     val condition: String?,
     val wind_speed: Double?,

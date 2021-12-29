@@ -11,7 +11,7 @@ import kotlin.random.Random
 class MainViewModel : ViewModel() {
 
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
-    private val repo: Repository = RepositoryImpl()         // Добавляем ранее созданный репозиторий
+    private val repo: Repository = RepositoryImpl         // Добавляем ранее созданный репозиторий
 
 
     fun getData(): LiveData<AppState> = liveDataToObserver  // метод который юужет возвращать данные
