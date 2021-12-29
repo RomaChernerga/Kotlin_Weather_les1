@@ -18,9 +18,7 @@ object WeatherLoader {
 
     fun load(city: City, listener: OnWeatherLoadListener) {
 
-        val handler = Handler(Looper.getMainLooper())
 
-        Thread {
             var urlConnection: HttpURLConnection? = null
 
             try {
@@ -41,19 +39,16 @@ object WeatherLoader {
                 Log.d("Debuglog", "result: $result")
 
                 val weatherDTO = Gson().fromJson(result, WeatherDTO::class.java)   // берем библиотеку Gson и просим распарсить наш Json, указывем источник и класс в который хотим преобразовать
-                handler.post{
-                    listener.onLoaded(weatherDTO)
-                }
+
+                listener.onLoaded(weatherDTO)
 
             } catch (e: Exception) {
-                handler.post{
-                    listener.onFailed(e)
-                }
+                listener.onFailed(e)
                 Log.e("DebuagLog", "Fail Connection", e)
             } finally {
                 urlConnection?.disconnect()
             }
-        }. start()
+
     }
 
     interface OnWeatherLoadListener {
