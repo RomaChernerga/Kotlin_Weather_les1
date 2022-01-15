@@ -9,6 +9,7 @@ import android.os.Looper
 import android.util.Log
 import com.example.myweather_app.R
 import com.example.myweather_app.databinding.ActivityMainBinding
+import com.example.myweather_app.model.MainWorker
 import com.example.myweather_app.model.RepositoryImpl
 import com.example.myweather_app.model.Weather
 import com.google.gson.Gson
@@ -38,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.main_container, MainFragment.newInstance())
             .commit()
+
+        Log.d("DEBUGLOG", "startWorker")
+        MainWorker.startWorker(this)
 
 
 

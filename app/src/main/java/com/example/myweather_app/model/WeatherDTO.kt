@@ -13,8 +13,8 @@ data class FactDTO (   // конструктор
     val temp: Int?,
     @SerializedName("feels_like")
     val feels_like: Int?,
-    val icon: String?,
-    val condition: String?,
+    val icon:String?,
+    val condition:String?,
     val wind_speed: Double?,
     val wind_dir: String?,
     val pressure_mm: Int?,

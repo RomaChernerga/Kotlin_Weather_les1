@@ -4,21 +4,23 @@ import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.load
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.example.myweather_app.R
 import com.example.myweather_app.databinding.DetailFragmentBinding
 import com.example.myweather_app.viewModel.MainViewModel
 import com.example.myweather_app.databinding.MainFragmentBinding
 import com.example.myweather_app.model.*
-import com.example.myweather_app.viewModel.AppState
-import com.example.myweather_app.viewModel.DetailViewModel
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.detail_fragment.*
+
 import java.lang.NullPointerException
 
 class DetailFragment : Fragment() {
@@ -36,6 +38,24 @@ class DetailFragment : Fragment() {
             binding.weatherConditions.text = weather.condition
             binding.temperatureValue.text = weather.temperature.toString()
             binding.feelsLikeValue.text = weather.feelsLike.toString()
+
+//            binding.weatherImage.load("https://picsum.photos/300/300") {
+//                crossfade(true)
+//                placeholder(R.drawable.icon_close)
+//                transformations(CircleCropTransformation())
+//            }
+
+            Log.d("Debug","https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg" )
+            val request = ImageRequest.Builder(requireContext())
+                .data("https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg")
+                .target(binding.weatherImage)
+                .build()
+
+            ImageLoader.Builder(requireContext())
+                .componentRegistry{ add(SvgDecoder(requireContext())) }
+                .build()
+                .enqueue(request)
+
         }  ?: Toast.makeText(context, "ОШИБКА", Toast.LENGTH_LONG).show()
     }
     private var _binding: DetailFragmentBinding? = null //временная
@@ -46,7 +66,6 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = DetailFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -65,7 +84,6 @@ class DetailFragment : Fragment() {
                 putExtra("WEATHER_EXTRA", weather)
             })
 
-
 //            WeatherLoader.load(weather.city, object : WeatherLoader.OnWeatherLoadListener  {
 //                override fun onLoaded(weatherDTO: WeatherDTO) {
 //                    weatherDTO.fact?.let { fact ->
@@ -80,8 +98,6 @@ class DetailFragment : Fragment() {
 //            })
         }?: throw NullPointerException("Weather is null")
 
-
-
         //для клавиши "назад" метод
         binding.mainBack.setOnClickListener {
             activity?.onBackPressed()
@@ -90,7 +106,7 @@ class DetailFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        RepositoryImpl.removeLoaderListener(listener)  // отписываемся от обновлений
+        RepositoryImpl.removeLoaderListener(listener) // отписываемся от обновлений
         _binding = null  // освобождаем байдинг чтобы небыло утечи данных
     }
 

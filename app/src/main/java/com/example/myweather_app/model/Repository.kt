@@ -11,9 +11,7 @@ interface Repository {  // методля для баз данных
     fun removeLoaderListener(listener: OnLoadListener)
 
 
-    fun interface OnLoadListener {
-        fun onLoaded()
-    }
+    fun interface OnLoadListener { fun onLoaded() }
 
 
 }

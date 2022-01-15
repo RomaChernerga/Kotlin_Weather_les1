@@ -18,20 +18,18 @@ class MainWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
             }
 
         })
-
         return result
     }
 
     companion object {   // для старта WorkManager-а
-        fun startWorker() {
+        fun startWorker(context: Context) {
             val uploadWorkRequest: WorkRequest =
                 OneTimeWorkRequest.Builder(MainWorker::class.java)
                     .setConstraints(Constraints.Builder()
-                        .setRequiresCharging(true)
-                        .setRequiredNetworkType(NetworkType.UNMETERED)  // исп только безлимитный интеренет
-
+                        .setRequiredNetworkType(NetworkType.CONNECTED)  // исп только безлимитный интеренет
                         .build())
                 .build()
+            WorkManager.getInstance(context).enqueue(uploadWorkRequest)
         }
     }
 }

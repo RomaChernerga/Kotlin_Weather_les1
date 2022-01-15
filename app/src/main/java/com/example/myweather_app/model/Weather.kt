@@ -11,18 +11,20 @@ data class Weather(
     val temperature: Int = 0,
     val feelsLike: Int = 0,
     val condition: String = "",
+    val icon: String = "",
 ): Parcelable    // наследуемся
 {
     constructor(parcel: Parcel) : this(
-        TODO("city"),
+        getDefaultCity(),
         parcel.readInt(),
         parcel.readInt()
-    ) {
-    }
+    )
+
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(temperature)
         parcel.writeInt(feelsLike)
+
     }
 
     override fun describeContents(): Int {
