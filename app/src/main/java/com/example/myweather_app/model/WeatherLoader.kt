@@ -5,8 +5,12 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -22,10 +26,23 @@ object WeatherLoader {
     private val client: OkHttpClient = OkHttpClient.Builder()
         .callTimeout(1000, TimeUnit.MILLISECONDS)
         .connectTimeout(1000, TimeUnit.MILLISECONDS)
+        .addInterceptor(Interceptor { chain ->
+            chain.proceed(chain.request()
+                .newBuilder()
+                .addHeader("X-Yandex-API-Key", YOUR_API_KEY)
+                .build())
+        })
         .addInterceptor( HttpLoggingInterceptor().apply {
-            setLevel(HttpLoggingInterceptor.Level.BASIC)
+            setLevel(HttpLoggingInterceptor.Level.BODY)
         })
         .build()
+
+    private val weatherAPI: WeatherAPI = Retrofit.Builder()
+        .baseUrl("https://api.weather.yandex.ru/")
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+        .build()
+        .create(WeatherAPI::class.java)
 
     private const val YOUR_API_KEY = "5f2451f8-2cb0-4b16-8d3e-66d110256e12"
 
@@ -90,9 +107,28 @@ object WeatherLoader {
                         Log.e("DebuagLog", "Fail Connection$response")
                     }
                 }
-
             })
+    }
 
+    fun loadRetrofit(city: City, listener: OnWeatherLoadListener) {
+        // создаем клиент RetroFit
+        weatherAPI.getWeather(city.lat, city.lon)
+            .enqueue(object: retrofit2.Callback<WeatherDTO>{
+                override fun onResponse(
+                    call: retrofit2.Call<WeatherDTO>,
+                    response: retrofit2.Response<WeatherDTO>
+                ) {
+                    if(response.isSuccessful) {
+                        response.body()?.let { listener.onLoaded(it) }
+                    } else {
+                        listener.onFailed(Exception(response.message()))
+                        Log.e("DebuagLog", "Fail Connection$response")
+                    }
+                }
+                override fun onFailure(call: retrofit2.Call<WeatherDTO>, t: Throwable) {
+                    listener.onFailed(t)
+                }
+            })
     }
 
     interface OnWeatherLoadListener {

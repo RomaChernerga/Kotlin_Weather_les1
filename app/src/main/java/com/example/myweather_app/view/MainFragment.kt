@@ -1,5 +1,6 @@
 package com.example.myweather_app.view
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -35,6 +36,8 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = MainFragmentBinding.inflate(inflater, container, false)
+
+
         return binding.root
     }
 
@@ -76,6 +79,11 @@ class MainFragment : Fragment() {
                 viewModel.getWeatherFromLocalStorageWorld()
                 binding.mainFAB.setImageResource(R.drawable.src)  // замена рисунка на кнопке при изменении языка
             }
+        }
+
+        binding.historyFAB.setOnClickListener {
+            requireContext().startActivity(Intent(requireContext(), HistoryActivity::class.java))
+
         }
     }
 

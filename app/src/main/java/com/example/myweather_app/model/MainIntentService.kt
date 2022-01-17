@@ -12,21 +12,21 @@ class MainIntentService : IntentService("MainIntentService") {
     }
 
     override fun onHandleIntent(intent: Intent?) {
-        Log.d(WeatherService.TAG, "current thread: " + Thread.currentThread().name)
+        Log.d(TAG, "current thread: " + Thread.currentThread().name)
 
         Thread.sleep(1000)
 
         intent?.getParcelableExtra<Weather>("WEATHER_EXTRA")?.let { weather ->
-            WeatherLoader.loadOkHttp(weather.city, object : WeatherLoader.OnWeatherLoadListener{
+            WeatherLoader.loadRetrofit(weather.city, object : WeatherLoader.OnWeatherLoadListener{
                 override fun onLoaded(weatherDTO: WeatherDTO) {
                     applicationContext.sendBroadcast(Intent(applicationContext, MainReceiver::class.java).apply {
                         action = MainReceiver.WEATHER_LOAD_SUCCESS
-
                         putExtra("WEATHER_EXTRA", Weather(
                             temperature = weatherDTO.fact?.temp ?: 0,
                             feelsLike = weatherDTO.fact?.feels_like ?: 0,
                             condition = weatherDTO.fact?.condition ?: "",
                             icon = weatherDTO.fact?.icon ?: "",
+                            city = weather.city,
                         ))
                     })
                 }
@@ -41,7 +41,7 @@ class MainIntentService : IntentService("MainIntentService") {
     }
     override fun onCreate() {
         super.onCreate()
-        Log.d(WeatherService.TAG, "onCreate")
+        Log.d(TAG, "onCreate")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -52,8 +52,7 @@ class MainIntentService : IntentService("MainIntentService") {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(WeatherService.TAG, "onDestroy")
-
+        Log.d(TAG, "onDestroy")
     }
     private fun handleActionFoo(param1: String?, param2: String?) {}
     private fun handleActionBaz(param1: String?, param2: String?) {}

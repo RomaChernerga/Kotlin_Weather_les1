@@ -1,52 +1,26 @@
 package com.example.myweather_app.model
 
-import android.os.Parcel
+
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 
+@Parcelize
 data class Weather(
-//    val city: City = getDefaultCity(),
-    internal val city: City = getDefaultCity(),
+
+    val city: City = getDefaultCity(),
     val temperature: Int = 0,
     val feelsLike: Int = 0,
     val condition: String = "",
     val icon: String = "",
 ): Parcelable    // наследуемся
-{
-    constructor(parcel: Parcel) : this(
-        getDefaultCity(),
-        parcel.readInt(),
-        parcel.readInt()
-    )
 
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(temperature)
-        parcel.writeInt(feelsLike)
-
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Weather> {
-        override fun createFromParcel(parcel: Parcel): Weather {
-            return Weather(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Weather?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
-
+@Parcelize
 data class City(
     val name: String = "Москва",
     val lat: Double = 0.0,
     val lon: Double = 0.0,
-)
+): Parcelable
 
 //fun getDefaultCity(): String { return "Москва" }   // альтернативные записи
 //fun getDefaultCity(): String = "Москва"

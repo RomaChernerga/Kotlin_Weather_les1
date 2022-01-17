@@ -20,6 +20,7 @@ import com.example.myweather_app.databinding.DetailFragmentBinding
 import com.example.myweather_app.viewModel.MainViewModel
 import com.example.myweather_app.databinding.MainFragmentBinding
 import com.example.myweather_app.model.*
+import com.example.myweather_app.viewModel.DetailViewModel
 
 import java.lang.NullPointerException
 
@@ -33,12 +34,19 @@ class DetailFragment : Fragment() {
         }
     }
 
+    private val viewModel: DetailViewModel by lazy {  // делаем неизменяемой и добавляем делегат by lazy
+        ViewModelProvider(this).get(DetailViewModel::class.java)
+    }
+
     private val listener = Repository.OnLoadListener {
+
+
+
         RepositoryImpl.getWeatherFromServer()?.let { weather ->
             binding.weatherConditions.text = weather.condition
             binding.temperatureValue.text = weather.temperature.toString()
             binding.feelsLikeValue.text = weather.feelsLike.toString()
-
+                //ЗАГРУЗКА ИКОНКИ
 //            binding.weatherImage.load("https://picsum.photos/300/300") {
 //                crossfade(true)
 //                placeholder(R.drawable.icon_close)
@@ -46,6 +54,9 @@ class DetailFragment : Fragment() {
 //            }
 
             Log.d("Debug","https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg" )
+
+            viewModel.saveHistory(weather)  // просим сохранить погоду в базе
+
             val request = ImageRequest.Builder(requireContext())
                 .data("https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg")
                 .target(binding.weatherImage)
@@ -58,6 +69,7 @@ class DetailFragment : Fragment() {
 
         }  ?: Toast.makeText(context, "ОШИБКА", Toast.LENGTH_LONG).show()
     }
+
     private var _binding: DetailFragmentBinding? = null //временная
     private val binding get() = _binding!!  // перопределяем геттер, !!-> это асерт, т.е. если он будет пустой, то будет ошибка
 
@@ -102,6 +114,8 @@ class DetailFragment : Fragment() {
         binding.mainBack.setOnClickListener {
             activity?.onBackPressed()
         }
+
+
     }
 
     override fun onDestroy() {
