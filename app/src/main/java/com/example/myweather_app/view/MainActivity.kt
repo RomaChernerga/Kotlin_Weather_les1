@@ -1,5 +1,6 @@
 package com.example.myweather_app.view
 
+import android.content.Intent
 import android.media.MediaParser
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.example.myweather_app.R
 import com.example.myweather_app.databinding.ActivityMainBinding
 import com.example.myweather_app.model.MainWorker
@@ -42,9 +46,23 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("DEBUGLOG", "startWorker")
         MainWorker.startWorker(this)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.contacts) {
 
+            startActivity(Intent(this, ContactsActivity::class.java))
+            return true
+        }
 
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.main, menu)
+
+        return super.onCreateOptionsMenu(menu)
     }
 }
 
