@@ -16,7 +16,6 @@ class MainWorker(context: Context, workerParams: WorkerParameters) : Worker(cont
             override fun onFailed(throwable: Throwable) {
                 result = Result.failure()
             }
-
         })
         return result
     }

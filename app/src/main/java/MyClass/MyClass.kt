@@ -7,6 +7,9 @@ fun main () {
 
 
 
+
+
+
 //    val name: String = "roman"
 //    val string1 = "Hello, $name" // $ - выполняет роль обозначение, что это не стринг, а переменная
 //    val string2 = """Hello, ${name.capitalize()}

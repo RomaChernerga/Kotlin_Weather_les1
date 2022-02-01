@@ -17,10 +17,8 @@ class HistoryContentProvider: ContentProvider() {
 
     private var authorities: String? = null // Адрес URI
     private lateinit var uriMatcher: UriMatcher // Помогает определить тип адреса URI
-
     private var entityContentType: String? = null  // Набор строк
     private var entityContentItemType: String? = null  // Одна строка
-
     private lateinit var contentUri: Uri  // Адрес URI Provider
 
     override fun onCreate(): Boolean {
@@ -29,12 +27,9 @@ class HistoryContentProvider: ContentProvider() {
         uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
         uriMatcher.addURI(authorities, ENTITY_PATH, URI_ALL)
         uriMatcher.addURI(authorities, "$ENTITY_PATH/#", URI_ID)
-
         entityContentType = "vnd.android.cursor.dir/vnd.$authorities.$ENTITY_PATH"
         entityContentItemType = "vnd.android.cursor.item/vnd.$authorities.$ENTITY_PATH"
-
         contentUri = Uri.parse("content://$authorities/$authorities/$ENTITY_PATH")
-
         return true
     }
 

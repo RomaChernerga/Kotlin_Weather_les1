@@ -13,7 +13,6 @@ class MainViewModel : ViewModel() {
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
     private val repo: Repository = RepositoryImpl         // Добавляем ранее созданный репозиторий
 
-
     fun getData(): LiveData<AppState> = liveDataToObserver  // метод который юужет возвращать данные
 
     fun getWeatherFromLocalStorageRus() = getDataFromLocalSource(true)
@@ -27,17 +26,13 @@ class MainViewModel : ViewModel() {
         liveDataToObserver.value = AppState.Loading  // сперва отображается загрузка при попытке запросить данные
 
         Thread{
-
             Thread.sleep(1000)
-
                 val weather = if(isRussian)  {    // источник, откуда берем данные если у нас русские города
                     repo.getWeatherFromLocalStorageRus()
                 } else {
                     repo.getWeatherFromLocalStorageWorld()  // впротивном случае берем города иностранные
                 }
                 liveDataToObserver.postValue(AppState.Success(weather)) //загрузка успешна рандомно, если да, то передаем погоду
-
         }.start()
     }
-
 }

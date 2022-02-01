@@ -43,7 +43,4 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     fun interface OnItemClick {
         fun onClick(weather: Weather)
     }
-
-
-
 }

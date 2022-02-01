@@ -1,6 +1,5 @@
 package com.example.myweather_app.view
 
-import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -12,13 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import coil.ImageLoader
 import coil.decode.SvgDecoder
-import coil.load
 import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
-import com.example.myweather_app.R
 import com.example.myweather_app.databinding.DetailFragmentBinding
-import com.example.myweather_app.viewModel.MainViewModel
-import com.example.myweather_app.databinding.MainFragmentBinding
+
 import com.example.myweather_app.model.*
 import com.example.myweather_app.viewModel.DetailViewModel
 
@@ -40,19 +35,12 @@ class DetailFragment : Fragment() {
 
     private val listener = Repository.OnLoadListener {
 
-
-
         RepositoryImpl.getWeatherFromServer()?.let { weather ->
             binding.weatherConditions.text = weather.condition
             binding.temperatureValue.text = weather.temperature.toString()
             binding.feelsLikeValue.text = weather.feelsLike.toString()
-                //ЗАГРУЗКА ИКОНКИ
-//            binding.weatherImage.load("https://picsum.photos/300/300") {
-//                crossfade(true)
-//                placeholder(R.drawable.icon_close)
-//                transformations(CircleCropTransformation())
-//            }
 
+                //загрузка иконки с сервера яндекс
             Log.d("Debug","https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg" )
 
             viewModel.saveHistory(weather)  // просим сохранить погоду в базе
@@ -72,7 +60,6 @@ class DetailFragment : Fragment() {
 
     private var _binding: DetailFragmentBinding? = null //временная
     private val binding get() = _binding!!  // перопределяем геттер, !!-> это асерт, т.е. если он будет пустой, то будет ошибка
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,26 +83,12 @@ class DetailFragment : Fragment() {
                 putExtra("WEATHER_EXTRA", weather)
             })
 
-//            WeatherLoader.load(weather.city, object : WeatherLoader.OnWeatherLoadListener  {
-//                override fun onLoaded(weatherDTO: WeatherDTO) {
-//                    weatherDTO.fact?.let { fact ->
-//                        binding.weatherConditions.text = fact.condition
-//                        binding.temperatureValue.text = fact.temp?.toString()
-//                        binding.feelsLikeValue.text = fact.feels_like?.toString()
-//                    }
-//                }
-//                override fun onFailed(throwable: Throwable) {
-//                    Toast.makeText(requireContext(), throwable.message, Toast.LENGTH_LONG).show()
-//                }
-//            })
         }?: throw NullPointerException("Weather is null")
 
         //для клавиши "назад" метод
         binding.mainBack.setOnClickListener {
             activity?.onBackPressed()
         }
-
-
     }
 
     override fun onDestroy() {
@@ -123,6 +96,4 @@ class DetailFragment : Fragment() {
         RepositoryImpl.removeLoaderListener(listener) // отписываемся от обновлений
         _binding = null  // освобождаем байдинг чтобы небыло утечи данных
     }
-
-
 }

@@ -15,9 +15,8 @@ object RepositoryImpl : Repository {  // имплиментрируем от Rep
 
     override fun weatherLoaded(weather: Weather?) {
         this.weather = weather
-
-        listeners.forEach{ it.onLoaded()}   // уведомляем, что погода получена
-    }
+        listeners.forEach{ it.onLoaded()}
+    }  // уведомляем, что погода получена
 
     override fun addLoadedListener(listener: Repository.OnLoadListener) {
         listeners.add(listener)
@@ -26,8 +25,6 @@ object RepositoryImpl : Repository {  // имплиментрируем от Rep
     override fun removeLoaderListener(listener: Repository.OnLoadListener) {
         listeners.remove(listener)
     }
-
-
 }
 
 

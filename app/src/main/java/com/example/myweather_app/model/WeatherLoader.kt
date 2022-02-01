@@ -1,8 +1,6 @@
 package com.example.myweather_app.model
 
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -10,16 +8,14 @@ import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStreamReader
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
-import java.time.Duration
 import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
+
 
 object WeatherLoader {
 
@@ -51,7 +47,7 @@ object WeatherLoader {
             var urlConnection: HttpURLConnection? = null
 
             try {
-                val uri = URL("https://api.weather.yandex.ru/v2/forecast?lat=${city.lat}&lon=${city.lon}")
+                val uri = URL("https://api.weather.yandex.ru/v2/informers?lat=${city.lat}&lon=${city.lon}")
 
                 urlConnection = uri.openConnection() as HttpURLConnection
                 urlConnection.addRequestProperty("X-Yandex-API-Key", YOUR_API_KEY)
@@ -78,36 +74,6 @@ object WeatherLoader {
                 urlConnection?.disconnect()
             }
 
-    }
-
-    fun loadOkHttp(city: City, listener: OnWeatherLoadListener) {
-
-        // создаем клиент OkHttp
-        val request: Request = Request.Builder()   //создаем запрос
-            .get()
-            .addHeader("X-Yandex-API-Key", YOUR_API_KEY)
-            .url("https://api.weather.yandex.ru/v2/forecast?lat=${city.lat}&lon=${city.lon}")
-            .build()
-
-            // ЗАПРАШИВАЕМ ЗАПРОС
-        client.newCall(request).enqueue(object : Callback{
-                override fun onFailure(call: Call, e: IOException) {
-                    listener.onFailed(e)
-                    Log.e("DebuagLog", "Fail Connection", e)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-
-                    if(response.isSuccessful) {
-                        // берем библиотеку Gson и просим распарсить наш Json, указывем источник и класс в который хотим преобразовать
-                        val weatherDTO = Gson().fromJson(response.body?.string(), WeatherDTO::class.java)
-                        listener.onLoaded(weatherDTO)
-                    } else {
-                        listener.onFailed(Exception(response.body?.string()))
-                        Log.e("DebuagLog", "Fail Connection$response")
-                    }
-                }
-            })
     }
 
     fun loadRetrofit(city: City, listener: OnWeatherLoadListener) {

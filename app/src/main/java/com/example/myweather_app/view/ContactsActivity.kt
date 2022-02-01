@@ -2,6 +2,7 @@ package com.example.myweather_app.view
 
 import android.Manifest
 import android.content.ContentResolver
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.example.myweather_app.R
 
@@ -20,7 +22,6 @@ class ContactsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacts)
-
         checkPermission()
     }
 
@@ -42,22 +43,17 @@ class ContactsActivity : AppCompatActivity() {
             }
         }
 
-
      private fun checkPermission() {
          permissionResult.launch(Manifest.permission.READ_CONTACTS)
      }
-
-
-
-//    private fun requestPermission() {
-//        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), 42)
-//    }
 
     fun getContacts() {
         val contentResolver: ContentResolver = contentResolver
 
         val contactList = findViewById<TextView>(R.id.contacts_list).apply {
-            text = ""
+            text = "Описание приложения"
+
+
         }
 
         val cursor: Cursor? = contentResolver.query(

@@ -19,6 +19,5 @@ class MainReceiver : BroadcastReceiver() {
             WEATHER_LOAD_SUCCESS -> RepositoryImpl.weatherLoaded(intent.extras?.getParcelable("WEATHER_EXTRA"))
             WEATHER_LOAD_FAILED -> RepositoryImpl.weatherLoaded(null)
         }
-
     }
 }

@@ -26,5 +26,4 @@ class LocalRepositoryImpl(private val dao: HistoryDAO): LocalRepository {
             )
         )
     }
-
 }
